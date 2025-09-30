@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Waqt Form</title>
+  <!-- Include Firebase via CDN -->
   <script src="https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.19.1/firebase-firestore.js"></script>
   <style>
@@ -66,7 +67,8 @@
     <button type="submit">Submit</button>
   </form>
 
-  // Firebase configuration (replace with your own Firebase config)
+  <script>
+    // Firebase configuration (replace with your own Firebase config)
     const firebaseConfig = {
       apiKey: "AIzaSyCow53rJ8I3o-dufcHpPsFjsSB3bkJE",
       authDomain: "waqtform.firebaseapp.com",
@@ -81,31 +83,28 @@
     const db = firebase.firestore();
 
     // Handle form submission
-document.getElementById('waqtForm').addEventListener('submit', async (e) => {
-  e.preventDefault();
+    document.getElementById('waqtForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
 
-  const password = prompt("Please enter the password:");
-  if (password !== 'yourpassword') {
-    alert('Incorrect password! Access denied.');
-    return;
-  }
+      const password = prompt("Please enter the password:");
+      if (password !== 'yourpassword') {
+        alert('Incorrect password! Access denied.');
+        return;
+      }
 
-  const formData = new FormData(e.target);
-  const data = Object.fromEntries(formData.entries());
+      const formData = new FormData(e.target);
+      const data = Object.fromEntries(formData.entries());
 
-  console.log('Submitting data:', data); // Log data before submission
-
-  try {
-    // Save data to Firestore
-    const docRef = await db.collection('submissions').add(data);
-    console.log('Document written with ID:', docRef.id); // Log document ID
-    alert('Form submitted successfully!');
-    e.target.reset();
-  } catch (error) {
-    console.error('Error saving to Firestore:', error); // Log errors
-    alert('Failed to submit form. Please try again.');
-  }
-});
+      try {
+        // Save data to Firestore
+        await db.collection('submissions').add(data);
+        alert('Form submitted successfully!');
+        e.target.reset();
+      } catch (error) {
+        console.error('Error saving to Firestore:', error);
+        alert('Failed to submit form. Please try again.');
+      }
+    });
   </script>
 </body>
 </html>
