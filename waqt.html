@@ -37,62 +37,41 @@
     }
   </style>
 </head>
-<form id="waqtForm" action="https://formspree.io/f/meorgrgr" method="POST">
-  <label for="heading">Heading</label>
-  <input type="text" id="heading" name="heading" required>
+<body>
+  <h2>Waqt Form</h2>
+  <form id="waqtForm" action="https://formspree.io/f/meorgrgr" method="POST">
+    <label for="heading">Heading</label>
+    <input type="text" id="heading" name="heading" required>
 
-  <label for="uraanKaTime">Uraan Ka Time (HHMMSS)</label>
-  <input type="text" id="uraanKaTime" name="uraanKaTime" maxlength="6" required>
+    <label for="uraanKaTime">Uraan Ka Time (HHMMSS)</label>
+    <input type="text" id="uraanKaTime" name="uraanKaTime" maxlength="6" pattern="\d{6}" title="Please enter time in HHMMSS format" required>
 
-  <label for="name">Name</label>
-  <input type="text" id="name" name="name" required>
+    <label for="name">Name</label>
+    <input type="text" id="name" name="name" required>
 
-  <label for="landingTime">Landing Time for Runner</label>
-  <select id="landingTime" name="landingTime" required>
-    <option value="">Select a Runner</option>
-    <option value="Runner 1">Runner 1</option>
-    <option value="Runner 2">Runner 2</option>
-    <option value="Runner 3">Runner 3</option>
-    <option value="Runner 4">Runner 4</option>
-    <option value="Runner 5">Runner 5</option>
-    <option value="Runner 6">Runner 6</option>
-    <option value="Runner 7">Runner 7</option>
-  </select>
+    <label for="landingTime">Landing Time for Runner</label>
+    <select id="landingTime" name="landingTime" required>
+      <option value="">Select a Runner</option>
+      <option value="Runner 1">Runner 1</option>
+      <option value="Runner 2">Runner 2</option>
+      <option value="Runner 3">Runner 3</option>
+      <option value="Runner 4">Runner 4</option>
+      <option value="Runner 5">Runner 5</option>
+      <option value="Runner 6">Runner 6</option>
+      <option value="Runner 7">Runner 7</option>
+    </select>
 
-  <button type="submit">Submit</button>
-</form>
+    <button type="submit">Submit</button>
+  </form>
+
   <script>
+    // Add simple password protection
     document.getElementById('waqtForm').addEventListener('submit', (e) => {
-      e.preventDefault();
-
       const password = prompt("Please enter the password:");
-
-      // Simple password protection
-      if (password !== 'Lab123') {
+      if (password !== 'lab123') {
+        e.preventDefault(); // Stop form submission
         alert('Incorrect password! Access denied.');
-        return;
       }
-
-      const formData = new FormData(e.target);
-      const data = Object.fromEntries(formData.entries());
-
-      fetch('https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec', {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-      .then(response => response.json())
-      .then(result => {
-        if (result.success) {
-          alert('Form submitted successfully!');
-          e.target.reset();
-        } else {
-          alert('Error submitting form. Please try again.');
-        }
-      })
-      .catch(error => console.error('Error:', error));
     });
   </script>
 </body>
