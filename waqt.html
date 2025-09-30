@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Waqt Form</title>
+  <script src="https://www.gstatic.com/firebasejs/9.19.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.19.1/firebase-firestore.js"></script>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -39,7 +41,7 @@
 </head>
 <body>
   <h2>Waqt Form</h2>
-  <form id="waqtForm" action="https://formspree.io/f/meorgrgr" method="POST">
+  <form id="waqtForm">
     <label for="heading">Heading</label>
     <input type="text" id="heading" name="heading" required>
 
@@ -65,12 +67,41 @@
   </form>
 
   <script>
-    // Add simple password protection
-    document.getElementById('waqtForm').addEventListener('submit', (e) => {
+    // Firebase configuration (replace with your own Firebase config)
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // Handle form submission
+    document.getElementById('waqtForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
       const password = prompt("Please enter the password:");
-      if (password !== 'lab123') {
-        e.preventDefault(); // Stop form submission
+      if (password !== 'yourpassword') {
         alert('Incorrect password! Access denied.');
+        return;
+      }
+
+      const formData = new FormData(e.target);
+      const data = Object.fromEntries(formData.entries());
+
+      try {
+        // Save data to Firestore
+        await db.collection('submissions').add(data);
+        alert('Form submitted successfully!');
+        e.target.reset();
+      } catch (error) {
+        console.error('Error saving to Firestore:', error);
+        alert('Failed to submit form. Please try again.');
       }
     });
   </script>
