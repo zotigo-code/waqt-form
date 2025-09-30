@@ -58,27 +58,38 @@
     const db = firebase.firestore();
 
     // Fetch data from Firestore
-    async function fetchData() {
-      const tableBody = document.querySelector('#dataTable tbody');
-      try {
-        const snapshot = await db.collection('submissions').get();
-        snapshot.forEach(doc => {
-          const data = doc.data();
-          const row = document.createElement('tr');
-          row.innerHTML = `
-            <td>${data.heading}</td>
-            <td>${data.uraanKaTime}</td>
-            <td>${data.name}</td>
-            <td>${data.landingTime}</td>
-          `;
-          tableBody.appendChild(row);
-        });
-      } catch (error) {
-        console.error('Error fetching data from Firestore:', error);
-      }
-    }
+async function fetchData() {
+  const tableBody = document.querySelector('#dataTable tbody');
 
-    fetchData();
+  try {
+    // Fetch data from Firestore
+    const snapshot = await db.collection('submissions').get();
+    console.log('Number of documents fetched:', snapshot.size); // Log number of documents
+
+    snapshot.forEach((doc) => {
+      const data = doc.data();
+      console.log('Document data:', data); // Log each document's data
+
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${data.heading || ''}</td>
+        <td>${data.uraanKaTime || ''}</td>
+        <td>${data.name || ''}</td>
+        <td>${data.landingTime || ''}</td>
+      `;
+      tableBody.appendChild(row);
+    });
+
+    if (snapshot.empty) {
+      console.log('No documents found in Firestore.');
+      tableBody.innerHTML = '<tr><td colspan="4">No data available</td></tr>';
+    }
+  } catch (error) {
+    console.error('Error fetching data from Firestore:', error); // Log errors
+  }
+}
+
+fetchData();
   </script>
 </body>
 </html>
