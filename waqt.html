@@ -81,28 +81,31 @@
     const db = firebase.firestore();
 
     // Handle form submission
-    document.getElementById('waqtForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
+document.getElementById('waqtForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
 
-      const password = prompt("Please enter the password:");
-      if (password !== 'lab123') {
-        alert('Incorrect password! Access denied.');
-        return;
-      }
+  const password = prompt("Please enter the password:");
+  if (password !== 'yourpassword') {
+    alert('Incorrect password! Access denied.');
+    return;
+  }
 
-      const formData = new FormData(e.target);
-      const data = Object.fromEntries(formData.entries());
+  const formData = new FormData(e.target);
+  const data = Object.fromEntries(formData.entries());
 
-      try {
-        // Save data to Firestore
-        await db.collection('submissions').add(data);
-        alert('Form submitted successfully!');
-        e.target.reset();
-      } catch (error) {
-        console.error('Error saving to Firestore:', error);
-        alert('Failed to submit form. Please try again.');
-      }
-    });
+  console.log('Submitting data:', data); // Log data before submission
+
+  try {
+    // Save data to Firestore
+    const docRef = await db.collection('submissions').add(data);
+    console.log('Document written with ID:', docRef.id); // Log document ID
+    alert('Form submitted successfully!');
+    e.target.reset();
+  } catch (error) {
+    console.error('Error saving to Firestore:', error); // Log errors
+    alert('Failed to submit form. Please try again.');
+  }
+});
   </script>
 </body>
 </html>
