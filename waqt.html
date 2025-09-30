@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Waqt Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    form {
+      max-width: 400px;
+      margin: auto;
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <h2>Waqt Form</h2>
+  <form id="waqtForm">
+    <label for="heading">Heading</label>
+    <input type="text" id="heading" name="heading" required>
+
+    <label for="uraanKaTime">Uraan Ka Time (HHMMSS)</label>
+    <input type="text" id="uraanKaTime" name="uraanKaTime" maxlength="6" pattern="\d{6}" title="Please enter time in HHMMSS format" required>
+
+    <label for="name">Name</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="landingTime">Landing Time for Runner</label>
+    <select id="landingTime" name="landingTime" required>
+      <option value="">Select a Runner</option>
+      <option value="Runner 1">Runner 1</option>
+      <option value="Runner 2">Runner 2</option>
+      <option value="Runner 3">Runner 3</option>
+      <option value="Runner 4">Runner 4</option>
+      <option value="Runner 5">Runner 5</option>
+      <option value="Runner 6">Runner 6</option>
+      <option value="Runner 7">Runner 7</option>
+    </select>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    document.getElementById('waqtForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const password = prompt("Please enter the password:");
+
+      // Simple password protection
+      if (password !== 'yourpassword') {
+        alert('Incorrect password! Access denied.');
+        return;
+      }
+
+      const formData = new FormData(e.target);
+      const data = Object.fromEntries(formData.entries());
+
+      fetch('https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(response => response.json())
+      .then(result => {
+        if (result.success) {
+          alert('Form submitted successfully!');
+          e.target.reset();
+        } else {
+          alert('Error submitting form. Please try again.');
+        }
+      })
+      .catch(error => console.error('Error:', error));
+    });
+  </script>
+</body>
+</html>
