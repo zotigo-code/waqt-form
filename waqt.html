@@ -44,16 +44,16 @@
   <h2>Waqt Form</h2>
   <form id="waqtForm">
     <label for="heading">Heading</label>
-    <input type="text" id="heading" name="heading" required>
+    <input type="text" id="heading" name="heading" autocomplete="off" required>
 
     <label for="uraanKaTime">Uraan Ka Time (HHMMSS)</label>
-    <input type="text" id="uraanKaTime" name="uraanKaTime" maxlength="6" pattern="\d{6}" title="Please enter time in HHMMSS format" required>
+    <input type="text" id="uraanKaTime" name="uraanKaTime" autocomplete="off" maxlength="6" pattern="\d{6}" title="Please enter time in HHMMSS format" required>
 
     <label for="name">Name</label>
-    <input type="text" id="name" name="name" required>
+    <input type="text" id="name" name="name" autocomplete="name" required>
 
     <label for="landingTime">Landing Time for Runner</label>
-    <select id="landingTime" name="landingTime" required>
+    <select id="landingTime" name="landingTime" autocomplete="off" required>
       <option value="">Select a Runner</option>
       <option value="Runner 1">Runner 1</option>
       <option value="Runner 2">Runner 2</option>
@@ -66,19 +66,17 @@
 
     <button type="submit">Submit</button>
   </form>
+
   <script>
-    // Firebase configuration (replace with your own Firebase config)
- const firebaseConfig = {
-  apiKey: "AIzaSyCow53rJ8I3o-dufcHpPsFjsSB3bkJE",
-  authDomain: "waqtform.firebaseapp.com",
-  // The value of `databaseURL` depends on the location of the database
-  projectId: "waqtform",
-  storageBucket: "waqtform.appspot.com",
-  messagingSenderId: "385125563733",
-  // For Firebase JavaScript SDK v7.20.0 and later, `measurementId` is an optional field
-  measurementId: "G-385125563733",
-  appId: "1:385125563733:web:f8ca2172edff29d40cc3dc",
-};
+    // Firebase Configuration (replace with your Firebase project configuration)
+    const firebaseConfig = {
+      apiKey: "AIzaSyCow53rJ8I3o-dufcHpPsFjsSB3bkJE",
+      authDomain: "waqtform.firebaseapp.com",
+      projectId: "waqtform",
+      storageBucket: "waqtform.appspot.com",
+      messagingSenderId: "385125563733",
+      appId: "1:385125563733:web:f8ca2172edff29d40cc3dc"
+    };
 
     // Initialize Firebase
     const app = firebase.initializeApp(firebaseConfig);
